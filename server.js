@@ -1,4 +1,3 @@
-//server.js
 // Importing modules
 const crypto = require('crypto');
 const express = require('express');
@@ -7,6 +6,22 @@ const qs = require('querystring');
 
 // Create Express application
 const app = express();
+app.use(express.urlencoded({ extended: true }));
+
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+const session = require('express-session');
+app.use(session({ secret: "MySecretKey", resave: true, saveUninitialized: true }));
+
+// Middleware for logging cookies
+app.use((req, res, next) => {
+    // Log information about cookies
+    console.log('Cookies:', req.cookies);
+
+    // Continue to the next middleware in the stack
+    next();
+});
 
 // Middleware for all routes
 app.all('*', function (request, response, next) {
@@ -76,26 +91,45 @@ if (fs.existsSync(filename)) {
 
 // Temporary variable for user inputs
 let temp_user = {};
-
-// Process purchase form
+/// Process purchase form
 app.post("/process_purchase", function (request, response) {
     let POST = request.body;
     console.log("Received form data:", POST);
     let has_qty = false;
     let errorObject = {};
 
+    // Clear existing product-related cookies
     for (let i in products) {
-        let qty = POST[`qty${[i]}`];
+        response.clearCookie(`qty${i}`);
+    }
+
+    // Log all cookies before setting new ones
+    console.log('All Cookies before setting:', request.cookies);
+
+    for (let i in products) {
+        let qty = POST[`qty${i}`];
         has_qty = has_qty || (qty > 0);
 
         let errorMessage = validateQuantity(qty, products[i].quantity_available);
 
         if (errorMessage.length > 0) {
-            errorObject[`qty${[i]}_error`] = errorMessage.join(', ');
+            errorObject[`qty${i}_error`] = errorMessage.join(', ');
+        } else {
+            // Set the quantity as a cookie
+            response.cookie(`qty${i}`, qty);
+            console.log(`Cookie qty${i} set to`, qty);
         }
     }
 
+    // Set a cookie to track selected items
+    response.cookie('selectedItems', JSON.stringify(POST));
+
+    console.log('All Cookies after setting:', request.cookies);
+
+
+    // After processing purchase
     if (has_qty == false && Object.keys(errorObject).length == 0) {
+        console.log("Redirecting to products_display.html with error");
         response.redirect("./products_display.html?error");
     } else if (has_qty == true && Object.keys(errorObject).length == 0) {
         for (let i in products) {
@@ -103,16 +137,20 @@ app.post("/process_purchase", function (request, response) {
         }
 
         let params = new URLSearchParams(Object.entries(temp_user).filter(([key, value]) => value !== undefined));
+        console.log("Redirecting to login.html with params");
         response.redirect(`./login.html?${params.toString()}`);
-        
+
     } else if (Object.keys(errorObject).length > 0) {
+        console.log("Redirecting to products_display.html with inputError");
         response.redirect("./products_display.html?" + qs.stringify(POST) + `&inputError`);
     } else {
         if (has_qty == false) {
+            console.log("Redirecting to products_display.html with error");
             response.redirect("./products_display.html?" + qs.stringify(POST) + `&error`);
         }
     }
 });
+
 // Process login form
 app.post('/process_login', (request, response) => {
     let POST = request.body;
@@ -132,9 +170,13 @@ app.post('/process_login', (request, response) => {
             temp_user['email'] = entered_email;
             temp_user['name'] = user_data[entered_email].name;
 
+            // Retrieve selected items from the cookie
+            let selectedItemsCookie = request.cookies['selectedItems'];
+            let selectedItems = selectedItemsCookie ? JSON.parse(selectedItemsCookie) : {};
+
             // Add the selected product information to temp_user
             for (let i in products) {
-                temp_user[`qty${[i]}`] = POST[`qty${[i]}`] || 0;  // Set to 0 if undefined
+                temp_user[`qty${[i]}`] = selectedItems[`qty${[i]}`] || 0;  // Set to 0 if undefined
             }
 
             // Redirect to the invoice page with the updated temp_user data
@@ -142,6 +184,7 @@ app.post('/process_login', (request, response) => {
             for (let i in products) {
                 params.set(`qty${i}`, temp_user[`qty${i}`] || 0);
             }
+            console.log("Redirecting to invoice.html with valid and user data");
             response.redirect(`./invoice.html?valid&name=${temp_user.name}&${params.toString()}`);
 
             return;
@@ -157,6 +200,7 @@ app.post('/process_login', (request, response) => {
     response.redirect(`./login.html?${params.toString()}`);
 });
 
+
 // Process continue shopping form
 app.post("/continue_shopping", function (request, response) {
     let params = new URLSearchParams(temp_user);
@@ -170,20 +214,29 @@ app.post("/continue_shopping", function (request, response) {
 });
 
 // Assuming you want to pass the order information to the invoice page
+
+// Invoice route
 app.get('/invoice', function (request, response) {
-    console.log("Query parameters in the invoice route:", request.query);
-    // Retrieve order information from the request query
+    // Log all cookies before setting new ones
+    console.log('All Cookies before setting:', request.cookies);
+
+    console.log('All Cookies after setting:', request.cookies);
+
+    // Retrieve order information from cookies
     let order = [];
     for (let i in products) {
-        let qty = request.query[`qty${[i]}`];
+        let qty = request.cookies[`qty${i}`];
         if (qty > 0) {
             order.push({ product: products[i], quantity: qty });
+            // checking if the cookies are working
+            console.log(`Product ${i}, qty${i}:`, qty);
         }
     }
 
+    console.log('Order:', order);
     // Read the invoice template file
     const fs = require('fs');
-    const invoiceTemplate = fs.readFileSync('invoice_template.html', 'utf8');
+    const invoiceTemplate = fs.readFileSync('invoice.html', 'utf8');
 
     // Replace the placeholder with dynamically generated rows
     let invoiceContent = '';
@@ -284,3 +337,14 @@ function validateName(name) {
     }
 }
 
+// Logout route
+app.get('/logout', function (request, response) {
+    // Clear relevant cookies
+    for (let i in products) {
+        response.clearCookie(`qty${i}`);
+    }
+    response.clearCookie('selectedItems');
+
+    // Redirect to the login page or any other destination
+    response.redirect('/login.html'); // Change the destination as needed
+});
