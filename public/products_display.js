@@ -1,6 +1,7 @@
 // products_display.js
-
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOMContentLoaded event fired');
+
     // Get parameters
     let params = new URL(document.location).searchParams;
     let error = params.get('error');
@@ -18,21 +19,48 @@ document.addEventListener('DOMContentLoaded', function () {
         validateQuantity(document.getElementById(`${i}`));
     }
 
-    // Event listener for image clicks
-    rowContainer.addEventListener('click', function (event) {
-        const clickedImage = event.target.closest('.name-img');
-        if (clickedImage) {
-            const index = parseInt(clickedImage.dataset.index);
-            incrementQuantity(index);
-        }
-    });
+    // Retrieve selected items from the cookie
+    const selectedItemsCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('selectedItems='));
+    const selectedItems = selectedItemsCookie ? JSON.parse(selectedItemsCookie.split('=')[1]) : [];
 
-    // Event listener for input changes
-    rowContainer.addEventListener('input', function (event) {
-        if (event.target.name === 'quantity_textbox') {
-            validateQuantity(event.target);
+    // Set initial quantities based on the retrieved values
+    for (let i = 0; i < products.length; i++) {
+        const quantityTextbox = document.getElementById(`${i}`);
+        quantityTextbox.value = selectedItems[i] || 0;
+    }
+// Event listener for image clicks
+rowContainer.addEventListener('click', function (event) {
+    console.log('Image clicked'); // Add this line
+    const clickedImage = event.target.closest('.name-img');
+    if (clickedImage) {
+        const index = parseInt(clickedImage.dataset.index);
+        incrementQuantity(index);
+        updateSelectedItemsCookie(); // Update the cookie on image click
+    }
+});
+
+// Event listener for input changes
+rowContainer.addEventListener('input', function (event) {
+    console.log('Input changed'); // Add this line
+    if (event.target.name === 'quantity_textbox') {
+        validateQuantity(event.target);
+        updateSelectedItemsCookie(); // Update the cookie on input change
+    }
+});
+    function updateSelectedItemsCookie() {
+        try {
+            const selectedQuantities = [];
+            for (let i = 0; i < products.length; i++) {
+                const quantity = document.getElementById(`${i}`).value;
+                selectedQuantities.push(quantity);
+            }
+    
+            document.cookie = `selectedItems=${JSON.stringify(selectedQuantities)}; path=/`;
+            console.log('Cookie updated successfully'); // Add this line
+        } catch (error) {
+            console.error('Error updating cookie:', error); // Add this line
         }
-    });
+    }
     function handleSubmit(event) {
         event.preventDefault();
     

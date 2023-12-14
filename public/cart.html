@@ -1,0 +1,26 @@
+<!-- cart.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <div id="cart-content"></div>
+
+    <script>
+        // You can use JavaScript to dynamically fetch and display the cart contents
+        fetch('/get_cart')
+            .then(response => response.json())
+            .then(cartData => {
+                // Update the cart content on the page
+                document.getElementById('cart-content').innerHTML = JSON.stringify(cartData, null, 2);
+            })
+            .catch(error => console.error('Error fetching cart data:', error));
+    </script>
+</body>
+</html>
