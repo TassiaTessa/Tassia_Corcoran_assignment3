@@ -1,26 +1,54 @@
-<!-- cart.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
+    <link rel="stylesheet" type="text/css" href="cart.css">
+    <script type="text/javascript" src="./products.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="./cart.js"></script>
+    
 </head>
 <body>
-    <h1>Shopping Cart</h1>
-    <div id="cart-content"></div>
+    <header>
+        <div class="top-heading">
+            <h1>Tassia's Familiar Emporium</h1>
+            <nav class="bottom-heading">
+                <h2><a href="/login.html">Login</a></h2>
+                <h2><a href="/products_display.html">Back to Products</a></h2>
+            </nav>
+        </div>
+    </header>
 
-    <script>
-        // You can use JavaScript to dynamically fetch and display the cart contents
-        fetch('/get_cart')
-            .then(response => response.json())
-            .then(cartData => {
-                // Update the cart content on the page
-                document.getElementById('cart-content').innerHTML = JSON.stringify(cartData, null, 2);
-            })
-            .catch(error => console.error('Error fetching cart data:', error));
-    </script>
+    <div class="table-container">
+        <table class="table" id="cartTable">
+            <!-- Header row for the table -->
+          
+            <!-- Body of the table -->
+            
+            <tbody id="cartTableBody"></tbody>
+        </table>
+    </div>
+    
+
+    <!-- Cart content will be dynamically added here -->
+    <table id="cart-content"></table>
+
+    <!-- Move the total and purchase buttons to the bottom -->
+    <div class="container" id="total-purchase-container">
+        <table class="table">
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td id="total-cell">$0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- Purchase button will be added here -->
+    <div id="purchase-button-container"></div>
+
 </body>
 </html>

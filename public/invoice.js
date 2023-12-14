@@ -1,84 +1,95 @@
-//invoice.js
+document.addEventListener('DOMContentLoaded', function () {
+    generateInvoice();
+});
 
-// Global variables
-let subtotal = 0;
-let taxAmount = 0;
-let shipping = 0;
-let total = 0;
+function generateInvoice() {
+    // Get the container
+    let invoiceContainer = document.getElementById("invoice-content");
 
-// Function to generate the item rows
-function generateItemRows() {
-    // Get the table
-    let table = document.getElementById("invoiceTable");
+    // Clear the content
+    invoiceContainer.innerHTML = '';
 
-    // Clear the table
-    table.innerHTML = '';
-
-    // Retrieve order information from cookies
-    var order = [];
-
+    // Retrieve cart information from cookies
+    let cart = [];
     for (let i in products) {
-        let qty = Cookies.get(`qty${i}`);
+        let qty = Cookies.get(`product_${i}`);
         if (qty > 0) {
-            order.push({ product: products[i], quantity: qty });
+            cart.push({ product: products[i], quantity: parseInt(qty) });
         }
     }
 
-    // If no items in the order, display a message
-    if (order.length === 0) {
-        let row = table.insertRow();
-        row.insertCell(0).innerHTML = "No items in the order.";
+    // If no items in the cart, display a message
+    if (cart.length === 0) {
+        invoiceContainer.innerHTML = "No items in the cart.";
         return;
     }
 
-    // Loop through the products in the order
-    for (let i = 0; i < order.length; i++) {
-        let orderItem = order[i];
+    // Loop through the products in the cart
+    for (let i = 0; i < cart.length; i++) {
+        let cartItem = cart[i];
 
-        // Update the variables
-        let extendedPrice = orderItem.product.price * orderItem.quantity;
-        subtotal += extendedPrice;
+        // Create a container for each product section
+        let itemContainer = document.createElement("div");
+        itemContainer.classList.add("invoice-section");
 
-        // Add the item to the table
-        let row = table.insertRow();
-        row.insertCell(0).innerHTML = `<img src="${orderItem.product.image}" class="img-small" name="img" data-tooltip="${orderItem.product.description}">`;
-        row.insertCell(1).innerHTML = orderItem.product.name;
-        row.insertCell(2).innerHTML = orderItem.quantity;
-        row.insertCell(3).innerHTML = "$" + orderItem.product.price.toFixed(2);
-        row.insertCell(4).innerHTML = "$" + extendedPrice.toFixed(2);
+        // Add the item to the invoice container
+        itemContainer.innerHTML = `
+        <div class="product-row">
+            <img src="${cartItem.product.image}" alt="${cartItem.product.name}" class="img-small">
+            <div id="product-name">
+                <p><strong>Product:</strong>    ${cartItem.product.name}</p>
+                <p><strong>Quantity:</strong>   ${cartItem.quantity}</p>
+                <p><strong>Price:</strong> $    ${cartItem.product.price.toFixed(2)}</p>
+                <p><strong>Total:</strong> $   <b> ${(cartItem.product.price * cartItem.quantity).toFixed(2)}</p></b>
+            </div>
+        </div>
+    `;
+
+        // Append the itemContainer to the invoice container
+        invoiceContainer.appendChild(itemContainer);
     }
 
-    // Calculate total, tax, and shipping
-    calculateTotal();
+    // Calculate subtotal
+    let subtotal = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
 
-    // Display the total in the HTML
-    displayTotal();
+    // Display subtotal in the invoice
+    let subtotalDiv = document.createElement("div");
+    subtotalDiv.classList.add("invoice-summary");
+    subtotalDiv.innerHTML = `<p><strong>Subtotal:</strong> $${subtotal.toFixed(2)}</p>`;
+    invoiceContainer.appendChild(subtotalDiv);
+
+    // Calculate tax
+    let taxRate = 0.047; // 4.7%
+    let taxAmount = subtotal * taxRate;
+
+    // Display tax in the invoice
+    let taxDiv = document.createElement("div");
+    taxDiv.classList.add("invoice-summary");
+    taxDiv.innerHTML = `<p><strong>Tax:</strong> $${taxAmount.toFixed(2)}</p>`;
+    invoiceContainer.appendChild(taxDiv);
+
+    // Calculate shipping
+    let shipping;
+    if (subtotal < 300) {
+        shipping = 20;
+    } else if (subtotal >= 300 && subtotal < 600) {
+        shipping = 40;
+    } else {
+        shipping = 0;
+    }
+
+    // Display shipping in the invoice
+    let shippingDiv = document.createElement("div");
+    shippingDiv.classList.add("invoice-summary");
+    shippingDiv.innerHTML = `<p><strong>Shipping:</strong> $${shipping.toFixed(2)}</p>`;
+    invoiceContainer.appendChild(shippingDiv);
+
+    // Calculate total
+    let total = subtotal + taxAmount + shipping;
+
+    // Display total in the invoice
+    let totalDiv = document.createElement("div");
+    totalDiv.classList.add("invoice-summary");
+    totalDiv.innerHTML = `<p><b><strong>Total: $${total.toFixed(2)}</p></b></strong>`;
+    invoiceContainer.appendChild(totalDiv);
 }
-
-function displayTotal() {
-    // Display the total in the HTML
-    let totalTable = document.getElementById("totalTable");
-    totalTable.innerHTML = `
-        <tr style="border-top: 2px solid black;">
-            <td colspan="5" style="text-align:center;">Sub-total</td>
-            <td>$${subtotal.toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align:center;">Hawaii Sales Tax @ ${taxRate * 100}%</td>
-            <td>$${taxAmount.toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align:center;">Shipping</td>
-            <td>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</td>
-        </tr>
-        <tr>
-            <td colspan="5" style="text-align:center;"><b>Total</td>
-            <td><b>$${total.toFixed(2)}</td>
-        </tr>
-    `;
-}
-
-// Use DOMContentLoaded event instead of window.onload
-document.addEventListener("DOMContentLoaded", function () {
-    generateItemRows();
-});

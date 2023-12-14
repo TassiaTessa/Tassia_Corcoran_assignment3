@@ -19,72 +19,78 @@ document.addEventListener('DOMContentLoaded', function () {
         validateQuantity(document.getElementById(`${i}`));
     }
 
-    // Retrieve selected items from the cookie
-    const selectedItemsCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('selectedItems='));
-    const selectedItems = selectedItemsCookie ? JSON.parse(selectedItemsCookie.split('=')[1]) : [];
+    // Retrieve selected quantities from cookies
+    const selectedQuantitiesCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('selectedItems='));
+    const selectedQuantities = selectedQuantitiesCookie ? JSON.parse(selectedQuantitiesCookie.split('=')[1]) : [];
 
     // Set initial quantities based on the retrieved values
     for (let i = 0; i < products.length; i++) {
         const quantityTextbox = document.getElementById(`${i}`);
-        quantityTextbox.value = selectedItems[i] || 0;
+        quantityTextbox.value = selectedQuantities[i] || 0;
     }
-// Event listener for image clicks
-rowContainer.addEventListener('click', function (event) {
-    console.log('Image clicked'); // Add this line
-    const clickedImage = event.target.closest('.name-img');
-    if (clickedImage) {
-        const index = parseInt(clickedImage.dataset.index);
-        incrementQuantity(index);
-        updateSelectedItemsCookie(); // Update the cookie on image click
-    }
-});
 
-// Event listener for input changes
-rowContainer.addEventListener('input', function (event) {
-    console.log('Input changed'); // Add this line
-    if (event.target.name === 'quantity_textbox') {
-        validateQuantity(event.target);
-        updateSelectedItemsCookie(); // Update the cookie on input change
-    }
-});
+    // Event listener for image clicks
+    rowContainer.addEventListener('click', function (event) {
+        console.log('Image clicked');
+        const clickedImage = event.target.closest('.name-img');
+        if (clickedImage) {
+            const index = parseInt(clickedImage.dataset.index);
+            incrementQuantity(index);
+            updateSelectedItemsCookie();
+        }
+    });
+
+    // Event listener for input changes
+    rowContainer.addEventListener('input', function (event) {
+        console.log('Input changed');
+        if (event.target.name === 'quantity_textbox') {
+            validateQuantity(event.target);
+            updateSelectedItemsCookie();
+        }
+    });
+
+
     function updateSelectedItemsCookie() {
         try {
             const selectedQuantities = [];
             for (let i = 0; i < products.length; i++) {
                 const quantity = document.getElementById(`${i}`).value;
-                selectedQuantities.push(quantity);
+                selectedQuantities.push(Number(quantity)); // Convert to number before pushing
             }
     
+            console.log('Selected Quantities:', selectedQuantities);
+    
             document.cookie = `selectedItems=${JSON.stringify(selectedQuantities)}; path=/`;
-            console.log('Cookie updated successfully'); // Add this line
+            document.cookie = `products=${JSON.stringify(products)}; path=/`;
+    
+            console.log('Cookies updated successfully');
         } catch (error) {
-            console.error('Error updating cookie:', error); // Add this line
+            console.error('Error updating cookies:', error);
         }
     }
     function handleSubmit(event) {
         event.preventDefault();
-    
+
         // Collect selected quantities
         const selectedQuantities = [];
         for (let i = 0; i < products.length; i++) {
             const quantity = document.getElementById(`${i}`).value;
             selectedQuantities.push(quantity);
         }
-    
+
         // Append selected quantities to the form data
         const formData = new FormData(document.forms['qty_form']);
         selectedQuantities.forEach((quantity, index) => {
             formData.append(`qty${index}`, quantity);
         });
-    
+
         // Redirect to the login page with the updated form data
         window.location.href = `/login.html?${new URLSearchParams(formData).toString()}`;
     }
-    
-    
+
     // Event listener for form submission
     document.querySelector('form[name="qty_form"]').addEventListener('submit', handleSubmit);
-    
+
 });
 
 // Function to get the order array from URL parameters
@@ -100,7 +106,6 @@ function getOrderArray(params) {
 }
 
 // ... (remaining code) ...
-
 // Function to generate HTML for a product
 function getProductHtml(product, index, orderValue) {
     return `
@@ -123,11 +128,13 @@ function getProductHtml(product, index, orderValue) {
                         <button type="button" class="quantity-button plus" onclick="incrementQuantity(${index})">+</button>
                     </div>
                     <p id="invalidQuantity${index}" class="text-danger"></p>
+
+                    <!-- Add to Cart button -->
+                    <button type="button" class="btn btn-primary" onclick="addToCart(${index})">Add to Cart</button>
                 </div>
             </div>
         </div>`;
 }
-
 
 
 // Function to validate the quantity
@@ -188,4 +195,18 @@ function incrementQuantity(index) {
 
     // Validate the updated quantity
     validateQuantity(quantityTextbox);
+}
+// Function to add the selected quantity to the cart
+function addToCart(index) {
+    const qtyInput = document.getElementById(`${index}`);
+    const quantity = parseInt(qtyInput.value);
+
+    // Check if the quantity is valid
+    if (quantity > 0) {
+        // Set a cookie or send a request to your server to handle the addition to the cart
+        document.cookie = `product_${index}=${quantity}`;
+        alert(`Added ${quantity} ${products[index].name}(s) to the cart!`);
+    } else {
+        alert('Please enter a valid quantity.');
+    }
 }

@@ -1,0 +1,178 @@
+/* cart.css */
+
+/* Top Title */
+header {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding-top: 20px;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: url(https://wallpaperaccess.com/full/8351171.gif);
+    color: #000000;
+    text-align: center; /* Center the content */
+}
+
+
+
+  .top-heading {
+    background-color: #1b1919;
+    padding: 30px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .top-heading h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 3em;
+    position: relative;
+  }
+  
+  /* Add this to your existing CSS */
+  .top-heading h1::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ffffff;
+    top: -15px;
+    left: 0;
+  }
+  
+  .bottom-heading {
+    text-align: center;
+    margin-top: 10px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .bottom-heading a {
+    display: inline-block;
+    padding: 10px 50px;
+    background-color: #ffffff00;
+    text-decoration: none;
+    color: #ffffff;
+  }
+  
+  /* Add this to your existing CSS */
+  nav.bottom-heading {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  nav.bottom-heading h2 {
+    margin: 0 10px;
+  }
+  
+  nav.bottom-heading a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 18px;
+  }
+  
+  nav.bottom-heading a:hover {
+    text-decoration: underline;
+  }
+  
+  #top_title {
+    color: black;
+  }
+  
+
+.img-small {
+    max-width: 100px; /* Adjust the max-width as needed */
+    height: auto;
+    position: relative;
+    display: inline-block;
+}
+
+/* New container for totals and purchase button */
+
+/* Modify the existing styles for #total-purchase-container */
+
+#total-purchase-container {
+    margin: 10px auto; /* Adjust the margin-top as needed */
+    max-width: 1200px; /* Adjust the maximum width as needed */
+    display: flex;
+    height: 100px; /* Adjust the height as needed */
+    justify-content: space-between;
+    background-color: #000000;
+    color: white;
+}
+#total-cell {
+    margin-left: auto;
+    font-weight: bold;
+    font-size: 18px; /* Adjust font size as needed */
+}
+/* Align text to the right within the container */
+#total-purchase-container td,
+#total-purchase-container th {
+    text-align: right;
+}
+
+/* Position the checkout button at the bottom */
+.checkout-button {
+    background-color: black;
+    color: white;
+    padding: 15px 30px; /* Adjust padding for desired size */
+    border: none;
+    cursor: pointer;
+    font-size: 16px; /* Adjust font size for desired size */
+    transition: background-color 0.3s; /* Add transition for rollover effect */
+}
+
+.checkout-button:hover {
+    background-color: #333; /* Change color on rollover */
+}
+/* Modify the existing styles for #cart-content */
+
+/* Center the cart content */
+#cart-content {
+    margin: 0 auto; /* Set left and right margins to auto */
+    text-align: center; /* Center the content */
+    width: 100%; /* Take up the full width of the page */
+}
+
+/* Style even rows */
+#cart-content tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Style odd rows */
+#cart-content tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Style header row */
+#cart-content th {
+    background-color: #000000;
+    color: white;
+    padding: 15px; /* Adjust padding for desired spacing */
+}
+
+/* Style table cells */
+#cart-content td {
+    padding: 10px; /* Adjust padding for desired spacing */
+}
+
+/* Remove margin and padding for better horizontal spacing */
+#cart-content {
+    margin: 15;
+    border-spacing: 10px;
+    border-collapse: collapse;
+}
+
+/* Add a bit of space between rows for better readability */
+#cart-content tr {
+    margin-bottom: 5px;
+}

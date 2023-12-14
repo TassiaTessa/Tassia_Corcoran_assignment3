@@ -4,8 +4,8 @@
   "price": 350.00,  
   "type": "Fauna",
   "quantity_available": 24,
-  "image": "./Images/Fox.JPG",
-  "rolloverImage": "./Images/BoxCat.JPG"
+  "image": "./Images/Fox.JPG"
+  
 
 } ,
 {

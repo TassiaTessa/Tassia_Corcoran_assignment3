@@ -92,18 +92,18 @@ nav.bottom-heading a:hover {
   background-color: white;
   color: black;
 }
-
-#purchase {
-  width: 3in;
-  height: 1in;
-  background: url(Images/purchase.png) no-repeat;
-  display: inline-block;
+.btn-primary {
+  background-color: #000000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-#purchase:hover {
-  width: 3in;
-  height: 1in;
-  background: url(Images/purchase1.png) no-repeat;
+/* Hover effect */
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
 .footer {
