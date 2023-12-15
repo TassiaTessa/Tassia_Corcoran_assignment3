@@ -1,17 +1,22 @@
 /* products-style.css */
 
 /* Top Title */
+/* Top Title */
 header {
-  height: 200px;
+  width: 10%;
+  max-width: 10vh; /* Set the height to be equal to the viewport height */
   background-size: cover;
   background-position: center;
   color: white;
   text-align: center;
   padding-top: 20px;
+  overflow: hidden; /* Add this line to hide horizontal overflow */
 }
-
 body {
   margin: 50px;
+}
+main {
+  padding-top: 200px; /* Adjust the value based on your header height */
 }
 
 .top-heading {
@@ -21,15 +26,22 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw; /* Set the width to be equal to the viewport width */
   z-index: 100;
+  overflow: hidden;
 }
 
+.top-heading::after {
+  content: '';
+  display: block;
+  border-bottom: 2px solid #ddd;
+}
 .top-heading h1 {
   margin: 0;
   color: #ffffff;
   font-size: 3em;
   position: relative;
+  
 }
 
 /* Add this to your existing CSS */
@@ -46,7 +58,7 @@ body {
 .bottom-heading {
   text-align: center;
   margin-top: 10px;
-  border-bottom: 2px solid #ddd;
+  font-size: larger;
   padding-bottom: 10px;
 }
 
@@ -78,9 +90,26 @@ nav.bottom-heading a {
 nav.bottom-heading a:hover {
   text-decoration: underline;
 }
+.top-heading nav.bottom-heading h2 a {
+  font-size: 24px; /* Adjust the font size as needed */
+}
 
 #top_title {
   color: black;
+}
+.cart-text {
+  font-size: 20px; /* Adjust the font size as needed */
+  color: #fff;
+  text-decoration: none; /* Remove underline */
+  position: absolute;
+  top: 70%;
+  right: 0;
+  transform: translateY(-50%);
+  margin-right: 70px;
+}
+
+.cart-text:hover {
+  color: rgb(162, 234, 133); /* Specify the color you want on hover */
 }
 
 /* Text box quantity */
@@ -106,16 +135,6 @@ nav.bottom-heading a:hover {
   background-color: #0056b3;
 }
 
-.footer {
-  text-align: center;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: azure;
-  padding: 20px 0;
-}
-
 /* Purchase Button */
 input[type="submit"] {
   font-size: 30px;
@@ -133,11 +152,7 @@ input[type="submit"] {
   transform: translateX(-50%);
 }
 
-/* Background image */
-footer {
-  background-color: white;
-  padding: 25px;
-}
+
 
 /* Bottom title */
 h3 {
@@ -152,7 +167,7 @@ h3 {
 }
 
 .name-img {
-  max-width: 50%;
+  max-width: 30%;
   height: auto;
   border: 40px;
 }
@@ -176,10 +191,6 @@ p {
   color: black;
 }
 
-.product_name {
-  width: 100%;
-}
-
 /* Style for the product container */
 .row {
   display: flex;
@@ -196,7 +207,7 @@ p {
 
 /* Style for the product image */
 .name-img {
-  max-width: 100%;
+  max-width: 10%;
   height: auto;
   position: relative;
 }
@@ -239,7 +250,7 @@ p {
 
 @media only screen and (min-width: 768px) {
   .name-img {
-      max-width: 80%;
+      max-width: 60%;
      
   }
 
@@ -286,6 +297,7 @@ p {
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   transition: box-shadow 0.3s ease;
+
 }
 
 .product_name:hover {
@@ -307,4 +319,70 @@ p {
   cursor: pointer;
   font-size: large;
   font-weight: bolder;
+}
+
+/* Add styles for the notification */
+.notification {
+  position: fixed;
+  top: 210px; /* Adjust based on your header height */
+  right: 10px;
+  background-color: #501c9a;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Add fade-in and fade-out animation */
+.notification.fade-in-out {
+  opacity: 1;
+}
+
+.notification.fade-out {
+  opacity: 0;
+}
+
+#prevButton {
+  float: left;
+  font-size: 30px;
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: black;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  top: 130%;
+  left: 3%;
+  width: 150px;
+  transform: translateX(-50%);
+  
+}
+
+#nextButton {
+  font-size: 30px;
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: black;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+  top: 130%;
+  left: 3%;
+  transform: translateX(-50%);
+  width: 150px;
+  float: right;
+}
+#prevButton:hover, #nextButton:hover {
+  background-color: #221548;
+}
+footer{
+  padding: 5%;
+  
 }

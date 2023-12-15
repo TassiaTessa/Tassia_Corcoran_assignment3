@@ -62,28 +62,32 @@ header {
     text-decoration: none;
     color: #ffffff;
   }
-  
-  /* Add this to your existing CSS */
   nav.bottom-heading {
     display: flex;
+    align-items: flex-end;
     justify-content: center;
     margin-top: 10px;
-  }
-  
-  nav.bottom-heading h2 {
+}
+
+nav.bottom-heading h2 {
     margin: 0 10px;
-  }
-  
-  nav.bottom-heading a {
+    display: flex;
+    align-items: flex-start; /* Align text at the top */
+}
+
+nav.bottom-heading a img {
+    margin-left: 5px; /* Adjust the margin between text and image */
+}
+
+nav.bottom-heading a {
     text-decoration: none;
     color: #ffffff;
     font-size: 18px;
-  }
-  
-  nav.bottom-heading a:hover {
+}
+
+nav.bottom-heading a:hover {
     text-decoration: underline;
-  }
-  
+}
   #top_title {
     color: black;
   }
@@ -127,7 +131,7 @@ header {
     padding: 15px 30px; /* Adjust padding for desired size */
     border: none;
     cursor: pointer;
-    font-size: 16px; /* Adjust font size for desired size */
+    font-size: 30px; /* Adjust font size for desired size */
     transition: background-color 0.3s; /* Add transition for rollover effect */
 }
 
@@ -175,4 +179,34 @@ header {
 /* Add a bit of space between rows for better readability */
 #cart-content tr {
     margin-bottom: 5px;
+}
+/* Add these styles to your CSS file */
+
+.back-button {
+  background-color: #000000; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 15px; /* Padding around the text */
+  border: 10px solid #3ce842; /* Add a 1px solid border with the same color as the background */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 20px; /* Set font size */
+}
+
+.back-button:hover {
+  background-color: #45a049; /* Darker green color on hover */
+  border-color: #45a049; /* Darker green color for the border on hover */
+}
+/* Add spacing between the "Remove" button and the quantity */
+.remove-button {
+ /* Adjust the value as needed */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 700;
+  background-color: black;
+  color: white;
+  white-space: normal;
+  padding: 5%;
+  max-width: 50%; /* Ensure the button doesn't exceed its container's width */
+}
+.remove-button:hover {
+  background-color: red; /* Change to red on hover */
 }

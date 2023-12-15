@@ -13,6 +13,7 @@
             <nav class="bottom-heading">
                 <h2><a href="/Cart.html">Back to Cart</a></h2>
                 <h2><a href="/products_display.html">Back to Products</a></h2>
+               <h2> <a href="/logout">Logout</a></p></h2>
             </nav>
         </div>
     </header>
@@ -22,11 +23,35 @@
         <div class="invoice-background">
             <!-- Invoice content goes here -->
         </div>
-    </div>
+    </div>   <div id="helloMsg"></div>
+
+    <script>
+        // Get the user's name from cookies
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        let userName = '';
+
+        cookies.forEach(cookie => {
+            const [name, value] = cookie.split('=');
+            if (name === 'temp_user' && value) {
+                const tempUser = JSON.parse(decodeURIComponent(value));
+                userName = tempUser.name || '';
+            }
+        });
+
+        // Display a welcome message with the user's name
+        document.write(`<h1><p>Thank you for your order, ${userName}!</h1></p>`);
+    </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script src="./products.js"></script>
     <script src="./cart.js"></script>
     <script src="./invoice.js"></script>
+
+    <footer>
+        <p style="color: gray;">&copy; 2023 Tassia's Familiar Emporium. All rights reserved.
+     <a href="/logout">Logout</a></p>
+    </footer>
+    
 </body>
 </html>

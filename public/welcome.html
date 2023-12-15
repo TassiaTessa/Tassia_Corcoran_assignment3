@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="welcome.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    
+
+
+        <div class="top-heading">
+            <h1>Tassia's Familiar Emporium</h1>
+            <nav class="bottom-heading">
+                
+                 <a href="/logout">Logout</a></p>
+                
+                
+            </nav>
+        </div>
+        
+    </header>
+
+    <div class="welcome-box">
+ 
+    <script>
+        // Get the user's name from cookies
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        let userName = '';
+
+        cookies.forEach(cookie => {
+            const [name, value] = cookie.split('=');
+            if (name === 'temp_user' && value) {
+                const tempUser = JSON.parse(decodeURIComponent(value));
+                userName = tempUser.name || '';
+            }
+        });
+
+        // Display a welcome message with the user's name
+        document.write(`<h1><p>Hello, ${userName}!</h1> Welcome to Tassia's Familiar Emporium.</p>`);
+    </script>
+    
+    <a href="./products_display.html" class="option-button">Go to Products</a>
+    
+    <a href="./invoice.html" class="option-button">View Invoice</a>
+    </div>
+
+
+
+</body>
+
+</html>

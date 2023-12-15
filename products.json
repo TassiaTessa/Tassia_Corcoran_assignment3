@@ -1,48 +1,153 @@
 [
-{  
-  "name":"Fauna Fox",  
-  "price": 350.00,  
-  "type": "Fauna",
-  "quantity_available": 24,
-  "image": "./Images/Fox.JPG"
+    [
+      {
+        "id": 1,
+        "name": "Fauna Fox",
+        "price": 350.00,
+        "type": "Fauna",
+        "quantity_available": 24,
+        "image": "./Images/Fox.JPG"
+      },
+      {
+        "id": 2,
+        "name": "Turf Tail",
+        "price": 247.00,
+        "type": "Limbo",
+        "quantity_available": 80,
+        "image": "./Images/BoxCat.JPG"
+      },
+      {
+        "id": 3,
+        "name": "Fauna Ferret",
+        "price": 299.00,
+        "type": "Fauna",
+        "quantity_available": 20,
+        "image": "./Images/Ferret.JPG"
+      },
+      {
+        "id": 4,
+        "name": "Nessie",
+        "price": 575.00,
+        "type": "Limbo",
+        "quantity_available": 19,
+        "image": "./Images/Nessie.JPG"
+      },
+      {
+        "id": 5,
+        "name": "Deer",
+        "price": 200.00,
+        "type": "Limbo",
+        "quantity_available": 32,
+        "image": "./Images/Deer.JPG"
+      },
+      {
+        "id": 6,
+        "name": "Fauna Cat",
+        "price": 150.00,
+        "type": "Fauna",
+        "quantity_available": 43,
+        "image": "./Images/Cat.JPG"
+      }
+    ],
+    [
+      {
+        "id": 7,
+        "name": "Food for Bird Familiars",
+        "price": 15.00,
+        "type": "Bird",
+        "quantity_available": 167,
+        "image": "./Images/Birdfood.JPG"
+      },
+      {
+        "id": 8,
+        "name": "Food for Reptile Familiars",
+        "price": 17.99,
+        "type": "Reptile",
+        "quantity_available": 89,
+        "image": "./Images/ReptileFood.JPG"
+      },
+      {
+        "id": 9,
+        "name": "Food for Dog and Cat Familiars",
+        "price": 23.00,
+        "type": "Mammals",
+        "quantity_available": 200,
+        "image": "./Images/MammalFood.JPG"
+      },
+      {
+        "id": 10,
+        "name": "Food for Deer Familiars",
+        "price": 42.00,
+        "type": "Mammals",
+        "quantity_available": 19,
+        "image": "./Images/DeerFood.JPG"
+      },
+      {
+        "id": 11,
+        "name": "Food for Fish Familiars",
+        "price": 9.99,
+        "type": "Fish",
+        "quantity_available": 44,
+        "image": "./Images/FishFood.JPG"
+      },
+      {
+        "id": 12,
+        "name": "Food for Horse Familiars",
+        "price": 50.00,
+        "type": "Mammals",
+        "quantity_available": 39,
+        "image": "./Images/HorseFood.JPG"
+      }
+    ],
+    [
+      {
+        "id": 13,
+        "name": "Potty Training Potion",
+        "price": 27.00,
+        "type": "Potion",
+        "quantity_available": 17,
+        "image": "./Images/PottyPotion.JPG"
+      },
+      {
+        "id": 14,
+        "name": "Invisible PawPrints Potion",
+        "price": 39.99,
+        "type": "Potion",
+        "quantity_available": 9,
+        "image": "./Images/PawPrints.JPG"
+      },
+      {
+        "id": 15,
+        "name": "Shimmering Coat Potion",
+        "price": 20.00,
+        "type": "Potion",
+        "quantity_available": 34,
+        "image": "./Images/Shimmerpotion.JPG"
+      },
+      {
+        "id": 16,
+        "name": "Deworming Potion",
+        "price": 52.00,
+        "type": "Potion",
+        "quantity_available": 19,
+        "image": "./Images/WormPotion.JPG"
+      },
+      {
+        "id": 17,
+        "name": "Protection Potion",
+        "price": 99.99,
+        "type": "Potion",
+        "quantity_available": 44,
+        "image": "./Images/ProtectionPotion.JPG"
+      },
+      {
+        "id": 18,
+        "name": "Underwater Breathing Potion",
+        "price": 500.00,
+        "type": "Potion",
+        "quantity_available": 4,
+        "image": "./Images/BreathingPotion.JPG"
+      }
+    ]
+  ]
   
-
-} ,
-{
-  "name":"Turf Tail",  
-  "price": 247.00,  
-  "type": "Limbo",
-  "quantity_available": 80,
-  "image":"./Images/BoxCat.JPG"
-} ,
-{  
-  "name":"Fauna Ferret",  
-  "price": 299.00,  
-  "type": "Fauna",
-  "quantity_available": 20,
-  "image":"./Images/Ferret.JPG"
-} ,
-{  
-  "name":"Nessie",  
-  "price": 575.00,  
-  "type": "Limbo",
-  "quantity_available": 19,
-  "image":"./Images/Nessie.JPG"
-} ,
-{  
-  "name":"Deer",  
-  "price": 200.00,  
-  "type": "Limbo",
-  "quantity_available": 32,
-  "image":"./Images/Deer.JPG"
-} ,
-{  
-  "name":"Fauna Cat",  
-  "price": 150.00,  
-  "type": "Fauna",
-  "quantity_available": 43,
-  "image":"./Images/Cat.JPG"
-} 
-]
-
-

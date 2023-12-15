@@ -1,7 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
     generateInvoice();
-});
+        // Trigger the email sending when the page loads
+        sendInvoiceEmail();
+    });
 
+    function sendInvoiceEmail() {
+        // Make an AJAX request to the server to send the email
+        fetch('/send_invoice_email', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({}),
+        })
+            .then(response => response.text())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error sending email:', error));
+    }
 function generateInvoice() {
     // Get the container
     let invoiceContainer = document.getElementById("invoice-content");

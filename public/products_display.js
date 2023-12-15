@@ -1,11 +1,14 @@
 // products_display.js
+// Declare order as a global variable
+let order = [];
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log('DOMContentLoaded event fired');
 
     // Get parameters
     let params = new URL(document.location).searchParams;
     let error = params.get('error');
-    let order = getOrderArray(params);
+    order = getOrderArray(params);
 
     // Populate error message
     if (error === 'true') {
@@ -19,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
         validateQuantity(document.getElementById(`${i}`));
     }
 
+    // Call displayProducts after populating initial products
+    displayProducts();
+
     // Retrieve selected quantities from cookies
     const selectedQuantitiesCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('selectedItems='));
     const selectedQuantities = selectedQuantitiesCookie ? JSON.parse(selectedQuantitiesCookie.split('=')[1]) : [];
@@ -31,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for image clicks
     rowContainer.addEventListener('click', function (event) {
-        console.log('Image clicked');
         const clickedImage = event.target.closest('.name-img');
         if (clickedImage) {
             const index = parseInt(clickedImage.dataset.index);
@@ -39,17 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
             updateSelectedItemsCookie();
         }
     });
-
-    // Event listener for input changes
+    
     rowContainer.addEventListener('input', function (event) {
-        console.log('Input changed');
         if (event.target.name === 'quantity_textbox') {
             validateQuantity(event.target);
             updateSelectedItemsCookie();
         }
     });
-
-
     function updateSelectedItemsCookie() {
         try {
             const selectedQuantities = [];
@@ -92,9 +93,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('form[name="qty_form"]').addEventListener('submit', handleSubmit);
 
 });
-
-// Function to get the order array from URL parameters
-function getOrderArray(params) {
+ // Function to get the order array from URL parameters
+ function getOrderArray(params) {
     let order = [];
     params.forEach((value, key) => {
         if (key.startsWith('prod')) {
@@ -105,7 +105,40 @@ function getOrderArray(params) {
     return order;
 }
 
-// ... (remaining code) ...
+const productsPerPage = 6;
+let currentPage = 0;
+
+// Display initial products
+displayProducts();
+
+// Event listener for next button
+document.getElementById('nextButton').addEventListener('click', function () {
+    currentPage++;
+    displayProducts();
+});
+
+// Event listener for previous button
+document.getElementById('prevButton').addEventListener('click', function () {
+    if (currentPage > 0) {
+        currentPage--;
+        displayProducts();
+    }
+});
+
+function displayProducts() {
+    const rowContainer = document.querySelector('.row');
+    rowContainer.innerHTML = ''; // Clear existing content
+
+    const startIndex = currentPage * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+
+    for (let i = startIndex; i < endIndex && i < products.length; i++) {
+        rowContainer.innerHTML += getProductHtml(products[i], i, order[i]);
+        validateQuantity(document.getElementById(`${i}`));
+    }
+}
+
+
 // Function to generate HTML for a product
 function getProductHtml(product, index, orderValue) {
     return `
@@ -134,6 +167,7 @@ function getProductHtml(product, index, orderValue) {
                 </div>
             </div>
         </div>`;
+
 }
 
 
@@ -196,17 +230,43 @@ function incrementQuantity(index) {
     // Validate the updated quantity
     validateQuantity(quantityTextbox);
 }
-// Function to add the selected quantity to the cart
+/// Function to add the selected quantity to the cart with a pop-up notification
 function addToCart(index) {
     const qtyInput = document.getElementById(`${index}`);
     const quantity = parseInt(qtyInput.value);
 
     // Check if the quantity is valid
     if (quantity > 0) {
-        // Set a cookie or send a request to your server to handle the addition to the cart
+        // Proceed to add items to the cart
+
+        // Display a pop-up notification
+        showNotification(`Added ${quantity} ${products[index].name}(s) to the cart!`);
+
+        // Optionally, you can also update the cart-related information or perform other actions
         document.cookie = `product_${index}=${quantity}`;
-        alert(`Added ${quantity} ${products[index].name}(s) to the cart!`);
-    } else {
+       } else {
         alert('Please enter a valid quantity.');
     }
+}
+
+// Function to check if the user is logged in
+function isUserLoggedIn() {
+    const userTokenCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('user_token='));
+    return userTokenCookie !== undefined;
+}
+
+// Function to display a pop-up notification
+function showNotification(message) {
+    // Create a notification element
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.textContent = message;
+
+    // Append the notification to the body
+    document.body.appendChild(notification);
+
+    // Set a timeout to remove the notification after 3 seconds
+    setTimeout(() => {
+        document.body.removeChild(notification);
+    }, 3000);
 }

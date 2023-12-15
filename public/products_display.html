@@ -14,14 +14,17 @@
                 <nav class="bottom-heading">
                     <h2><a href="/login.html">Login</a></h2>
                     <h2><a href="/index.html">Home</a></h2>
-                    <h2><a href="/cart.html">Shopping Cart</a></h2>
-                </nav>
+                    
+</nav>
+<h2 class="cart-link"><a href="/cart.html" class="cart-text">Shopping Cart <img src="Images/cartimg.svg" alt="Shopping Cart Icon"></a></h2>
             </div>
             
             <!-- Title of Store -->
         </header>
 
     <main>
+        
+
         <form name="qty_form" action="/login.html" method="POST">
             <h1><span id="top_title"></span></h1>
             <div class="container">
@@ -33,15 +36,24 @@
             <footer class="text-center py-4">
                 <div class="row">
                     <div class="col">
-                        <div class="btn-container">
-                            <button type="submit" class="btn btn-secondary" id="purchase"></button>
-                        </div>
+                        
                     </div>
                 </div>
             </footer>
         </form>
+      
+<div class="clearfix">
+    <button id="prevButton">Previous</button>
+    <button id="nextButton">Next</button>
+</div>
     </main>
     
     <script defer src="./products_display.js"></script>
-    </body>
+
+        <!-- Add this to the bottom of your HTML file, before the closing </body> tag -->
+<footer>
+    <p style="color: gray;">&copy; 2023 Tassia's Familiar Emporium. All rights reserved.
+ <a href="/logout">Logout</a></p>
+</footer>
+
     </html>
